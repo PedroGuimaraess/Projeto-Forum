@@ -1,22 +1,18 @@
 package br.com.projeto.forum.service
 
+import br.com.projeto.forum.exception.NotFoundException
 import br.com.projeto.forum.model.Usuario
+import br.com.projeto.forum.repository.UsuarioRepository
 import org.springframework.stereotype.Service
 
 @Service
 class UsuarioServive(
-    var usarios: List<Usuario>
+    private val usuarioRepository: UsuarioRepository,
+    private val notFoundMessage: String = "Id não encontrado!"
 ) {
-    init {
-        val usuario = Usuario(
-            id = 1,
-            nome = "Pedro",
-            email = "pedro@gmail.com"
-        )
-        usarios = listOf(usuario)
-    }
-
     fun buscarPorId(id: Long): Usuario {
-        return usarios.stream().filter { a -> a.id == id }.findFirst().get()
+        return usuarioRepository.findById(id).orElseThrow{
+            NotFoundException(notFoundMessage)
+        }
     }
 }

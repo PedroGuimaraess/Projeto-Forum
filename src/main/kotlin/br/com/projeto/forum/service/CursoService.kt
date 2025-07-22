@@ -1,23 +1,19 @@
 package br.com.projeto.forum.service
 
+import br.com.projeto.forum.exception.NotFoundException
 import br.com.projeto.forum.model.Curso
+import br.com.projeto.forum.repository.CursoRepository
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class CursoService(
-    var cursos: List<Curso>
+    private val cursoRepository: CursoRepository,
+    private val notFoundMessage: String = "Id não encontrado!"
 ) {
-    init {
-        val curso = Curso(
-            id = 1,
-            nome = "Kotlin",
-            categoria = "Programação"
-        )
-        cursos = listOf(curso)
-    }
 
     fun buscarPorId(id: Long): Curso {
-        return cursos.stream().filter { t -> t.id == id }.findFirst().get()
+        return cursoRepository.findById(id).orElseThrow{
+            NotFoundException(notFoundMessage)
+        }
     }
 }
