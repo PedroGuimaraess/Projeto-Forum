@@ -7,8 +7,9 @@ import br.com.projeto.forum.exception.NotFoundException
 import br.com.projeto.forum.mapper.TopicoViewMapper
 import br.com.projeto.forum.mapper.TopicoformMapper
 import br.com.projeto.forum.repository.TopicoRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
 
 @Service
 class TopicoService(
@@ -17,10 +18,18 @@ class TopicoService(
     private val topicoFormMapper: TopicoformMapper,
     private val notFoundMessage: String = "Topico não encontrado!"
 ) {
-    fun listar(): List<TopicoViewDto>{
-        return topicoRepository.findAll().stream().map {
+    fun listar(
+        nomeCurso: String?,
+        paginacao: Pageable
+    ): Page<TopicoViewDto>{
+        val topicos = if (nomeCurso == null) {
+            topicoRepository.findAll(paginacao)
+        } else {
+            topicoRepository.findByCursoNome(nomeCurso, paginacao)
+        }
+        return topicos.map {
             t ->  topicoViewMapper.map(t)
-        }.collect(Collectors.toList())
+        }
     }
 
     fun buscarPorId(id: Long):TopicoViewDto{

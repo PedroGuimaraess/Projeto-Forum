@@ -4,4 +4,4 @@ CREATE TABLE curso (
     categoria VARCHAR(255) NOT NULL
 );
 
-INSERT INTO curso(id,nome,categoria) VALUES(1,'Koltin', 'Programacao');
+INSERT INTO curso(id,nome,categoria) VALUES(1,'Kotlin', 'Programacao');
