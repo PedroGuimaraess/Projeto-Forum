@@ -2,6 +2,7 @@ package br.com.projeto.forum.controller
 
 import br.com.projeto.forum.dto.AtualizacaoNovoTopicoForm
 import br.com.projeto.forum.dto.NovoTopicoForm
+import br.com.projeto.forum.dto.TopicoPorCategoriaDto
 import br.com.projeto.forum.dto.TopicoViewDto
 import br.com.projeto.forum.service.TopicoService
 import jakarta.transaction.Transactional
@@ -63,5 +64,10 @@ class TopicoController(
     @CacheEvict(value = ["Lista de topicos"], allEntries = true)
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)
+    }
+
+    @GetMapping("/relatorio")
+    fun relatorio(): List<TopicoPorCategoriaDto> {
+        return service.relatorio()
     }
 }
