@@ -1,9 +1,7 @@
 package br.com.projeto.forum.model
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import com.fasterxml.jackson.annotation.JsonIgnore
+import jakarta.persistence.*
 
 @Entity
 data class Usuario (
@@ -12,5 +10,16 @@ data class Usuario (
 
     val nome: String,
 
-    val email: String
+    val email: String,
+
+    val password: String,
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "usuario_role",
+        joinColumns = [JoinColumn(name = "usuario_id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")]
+        )
+    val role: List<Role> = mutableListOf()
 )

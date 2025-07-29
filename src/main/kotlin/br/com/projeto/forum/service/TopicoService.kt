@@ -1,14 +1,10 @@
 package br.com.projeto.forum.service
 
-import br.com.projeto.forum.dto.AtualizacaoNovoTopicoForm
-import br.com.projeto.forum.dto.NovoTopicoForm
-import br.com.projeto.forum.dto.TopicoPorCategoriaDto
-import br.com.projeto.forum.dto.TopicoViewDto
+import br.com.projeto.forum.dto.*
 import br.com.projeto.forum.exception.NotFoundException
 import br.com.projeto.forum.mapper.TopicoViewMapper
 import br.com.projeto.forum.mapper.TopicoformMapper
 import br.com.projeto.forum.repository.TopicoRepository
-import jakarta.persistence.EntityManager
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service

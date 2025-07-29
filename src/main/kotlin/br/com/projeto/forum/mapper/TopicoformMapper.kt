@@ -3,13 +3,13 @@ package br.com.projeto.forum.mapper
 import br.com.projeto.forum.dto.NovoTopicoForm
 import br.com.projeto.forum.model.Topico
 import br.com.projeto.forum.service.CursoService
-import br.com.projeto.forum.service.UsuarioServive
+import br.com.projeto.forum.service.UsuarioService
 import org.springframework.stereotype.Component
 
 @Component
 class TopicoformMapper(
     private val cursoService: CursoService,
-    private val usuarioService: UsuarioServive,
+    private val usuarioService: UsuarioService,
 ): Mapper<NovoTopicoForm, Topico> {
     override fun map(t: NovoTopicoForm): Topico {
         return  Topico(
