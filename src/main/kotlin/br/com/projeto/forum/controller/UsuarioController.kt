@@ -1,6 +1,5 @@
 package br.com.projeto.forum.controller
 
-import br.com.projeto.forum.dto.UsuarioViewDto
 import br.com.projeto.forum.model.Usuario
 import br.com.projeto.forum.service.UsuarioService
 import org.springframework.web.bind.annotation.GetMapping

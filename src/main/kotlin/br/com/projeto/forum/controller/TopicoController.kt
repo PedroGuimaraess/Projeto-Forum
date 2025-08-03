@@ -31,7 +31,7 @@ class TopicoController(
     }
 
     @GetMapping("/{id}")
-    fun buscarPorId(@PathVariable id: Long): TopicoViewDto{
+    fun buscarPorId(@PathVariable id: Long): TopicoViewDto {
         return service.buscarPorId(id)
     }
 
