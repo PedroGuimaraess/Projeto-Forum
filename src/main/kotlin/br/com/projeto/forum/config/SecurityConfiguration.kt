@@ -33,7 +33,7 @@ class SecurityConfig(
                 auth
                     .requestMatchers("/h2-console/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                    //.requestMatchers(HttpMethod.GET).hasAuthority("LEITURA_ESCRITA")
+                    .requestMatchers("/topicos").hasAuthority("LEITURA_ESCRITA")
                     .anyRequest().authenticated()
             }.headers {
                 it.frameOptions { frame -> frame.disable() } // H2 console requires this
@@ -42,7 +42,7 @@ class SecurityConfig(
                 JwtLoginFilter(authenticationManager = configuration.authenticationManager, jwtUtil = jwtUtil),
                 UsernamePasswordAuthenticationFilter().javaClass
             )
-            .addFilterBefore(JWTAuthenticationFilter(jwtUtil = jwtUtil), OncePerRequestFilter::class.java)
+            .addFilterBefore(JWTAuthenticationFilter(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
             .sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }.build()

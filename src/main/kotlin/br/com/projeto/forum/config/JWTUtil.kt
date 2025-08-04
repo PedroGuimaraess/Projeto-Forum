@@ -1,25 +1,32 @@
 package br.com.projeto.forum.config
 
+import br.com.projeto.forum.service.UsuarioService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.stereotype.Component
 import java.nio.charset.StandardCharsets
 import java.util.Date
 
 @Component
-class JWTUtil {
+class JWTUtil(
+    private val usuarioService: UsuarioService
+) {
 
     @Value("\${jwt.secret}")
-    private lateinit var secret: String
+    private var secret: String = "2a12Dpr9yBjZksrrC34hnQEG1uDyF5HKckz3Cob4j5md1Jl3jXPF1ejzi"
 
     private val expiration: Long = 60000
 
     private val key = Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
 
-    fun generateToken(username: String): String? {
-        return Jwts.builder()
+    fun generateToken(username: String, authorities: MutableCollection<out GrantedAuthority>): String? {
+        return Jwts
+            .builder()
+            .subject(username)
+            .claim("role", authorities)
             .expiration(Date(System.currentTimeMillis() + expiration))
             .signWith(key)
             .compact()
@@ -42,6 +49,10 @@ class JWTUtil {
             .verifyWith(key)
             .build()
             .parseSignedClaims(jwt)
-        return UsernamePasswordAuthenticationToken(username, null, null)
+            .payload
+            .subject
+
+        val user = usuarioService.loadUserByUsername(username.toString())
+        return UsernamePasswordAuthenticationToken(username, null, user.authorities)
     }
 }
