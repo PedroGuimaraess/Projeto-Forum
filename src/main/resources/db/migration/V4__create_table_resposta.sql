@@ -1,5 +1,5 @@
 CREATE TABLE resposta(
-    id INT NOT NUlL PRIMARY KEY auto_increment,
+    id bigint NOT NUlL PRIMARY KEY auto_increment,
     mensagem VARCHAR(300) NOT NULL,
     data_criacao datetime,
     topico_id bigint NOT NULL,

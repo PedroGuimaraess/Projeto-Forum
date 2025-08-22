@@ -38,7 +38,7 @@ class JWTUtil(
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(jwt)
-            true
+             true
         } catch (e: IllegalArgumentException) {
             false
         }

@@ -1,5 +1,5 @@
 CREATE TABLE usuario (
-    id INT PRIMARY KEY NOT NULL auto_increment,
+    id bigint PRIMARY KEY NOT NULL auto_increment,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL
 );

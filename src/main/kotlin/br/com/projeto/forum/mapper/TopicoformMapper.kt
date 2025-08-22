@@ -5,6 +5,7 @@ import br.com.projeto.forum.model.Topico
 import br.com.projeto.forum.service.CursoService
 import br.com.projeto.forum.service.UsuarioService
 import org.springframework.stereotype.Component
+import java.time.LocalDate
 
 @Component
 class TopicoformMapper(
@@ -16,7 +17,8 @@ class TopicoformMapper(
             titulo = t.titulo,
             mensagem = t.mensagem,
             curso = cursoService.buscarPorId(t.idCurso),
-            autor = usuarioService.buscarPorId(t.idAutor)
+            autor = usuarioService.buscarPorId(t.idAutor),
+            dataAlteracao = LocalDate.now()
         )
     }
 }
