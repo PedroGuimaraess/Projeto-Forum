@@ -1,14 +1,19 @@
 package br.com.projeto.forum.integration
 
+import br.com.projeto.forum.dto.TopicoPorCategoriaDto
+import br.com.projeto.forum.model.TopicoTest
 import br.com.projeto.forum.repository.TopicoRepository
+import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import kotlin.test.Test
 
 @DataJpaTest
 @Testcontainers
@@ -17,6 +22,8 @@ class TopicoRepositoryTest {
 
     @Autowired
     private lateinit var topicoRepository: TopicoRepository
+
+    private val topico = TopicoTest.build()
 
     companion object {
         @Container
@@ -35,5 +42,19 @@ class TopicoRepositoryTest {
         }
     }
 
+    @Test
+    fun `deve gerar um relatorio`() {
+        topicoRepository.save(topico)
+        val relatorio = topicoRepository.relatorio()
 
+        assertThat(relatorio).isNotNull
+        assertThat(relatorio.first()).isExactlyInstanceOf(TopicoPorCategoriaDto::class.java)
+    }
+
+    @Test
+    fun `deve listar topico pelo nome do curos`() {
+        topicoRepository.save(topico)
+        val topico = topicoRepository.findByCursoNome(topico.curso.nome, PageRequest.of(0,5))
+        assertThat(topico).isNotNull
+    }
 }
